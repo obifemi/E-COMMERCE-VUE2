@@ -99,7 +99,7 @@ const app = express();
 app.use(bodyParser.json());
 
 app.get('/', (req, res) => {    
-    res.send('Hello World!');
+    res.send('Hello World! nodemon!');
 })
 
 app.get('/:name', (req, res) => {
