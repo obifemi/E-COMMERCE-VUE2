@@ -10,7 +10,7 @@ app.get('/', (req, res) => {
 
 
 app.post('/', (req, res) => {    
-    res.send('my name is:' + req.body.name);
+    res.send(`my name is ${req.body.name}`);
 })
 
 
