@@ -1,6 +1,6 @@
 import express from 'express';
 import bodyParser from 'body-parser';
-import {MongoClient} from 'mongodb';
+const { MongoClient, ObjectId } = require('mongodb');
 
 const products = [{
     id: '123',
@@ -114,6 +114,22 @@ app.get('/api/products', async(req, res) => {
     client.close();
     res.status(200).json(products);
 })
+
+//add a new product to mongoDB database
+app.post('/api/products', async(req, res) => {
+    const client = await MongoClient.connect('mongodb://localhost:27017', { useNewUrlParser: true, useUnifiedTopology: true });
+    const db = client.db('vue-db');
+    const newProduct = req.body;
+    await db.collection('products').insertOne(newProduct);
+    res.status(201).json(newProduct);
+    client.close();
+})
+
+
+
+
+
+
 
 app.get('/api/users/:userId/cart', async(req, res) => {
     const { userId } = req.params;
