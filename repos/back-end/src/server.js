@@ -6,6 +6,32 @@ import path from 'path';
 const app = express();
 app.use(bodyParser.json());
 
+
+
+
+///chat gpt deneme
+
+app.post('/api/products', async (req, res) => {
+  const { name, imageUrl, price } = req.body;
+  const client = await MongoClient.connect(
+    'mongodb://localhost:27017',
+    { useNewUrlParser: true, useUnifiedTopology: true },
+  );
+  const db = client.db('vue-db');
+  const result = await db.collection('products').insertOne({
+    name,
+    imageUrl,
+    price,
+  });
+  const newProduct = await db.collection('products').findOne({ _id: result.insertedId });
+  res.status(201).json(newProduct);
+  client.close();
+});
+
+
+
+
+
 app.use('/images', express.static(path.join(__dirname, '../assets')));
 
 app.get('/api/products', async (req, res) => {
